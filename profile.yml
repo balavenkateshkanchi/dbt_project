@@ -1,0 +1,30 @@
+dbt_project:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: gn53132.ap-southeast-1
+      # mazrjmi-sy41104
+
+      # User/password auth
+      user: balavenkateshkanchi@gmail.com
+      password:SriGit!19
+      # SriSnow!19
+
+      role: ACCOUNTADMIN
+      #DEV_role
+      
+      database: TASTY_BYTES_SAMPLE_DATA
+      warehouse: COMPUTE_WH
+      schema: RAW_POS
+      threads: 1
+      authenticator: externalbrowser
+      client_session_keep_alive: False
+      query_tag: dbt_data_analytics
+
+      # optional
+      connect_retries: 0 # default 0
+      connect_timeout: 10 # default: 10
+      retry_on_database_errors: False # default: false
+      retry_all: False  # default: false
+      reuse_connections: True # default: True if client_session_keep_alive is False, otherwise None
