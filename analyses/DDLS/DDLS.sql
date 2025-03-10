@@ -1,0 +1,70 @@
+-- SCD Type 1 IMPLEMENTATION
+create table TASTY_BYTES_SAMPLE_DATA.RAW_POS.SRC_scd_type_1
+(id number,
+name varchar(250),
+ADDRESS varchar(500),
+CRETED_DATE TIMESTAMP,
+MODIFIED_DATE TIMESTAMP,
+BATCH_ID NUMBER)
+;
+
+INSERT INTO SRC_scd_type_1
+VALUES(100,'BALA VENKATESH','GEDDADA',CURRENT_TIMESTAMP,NULL,1),
+ (101,'SRI LALITHA','TATIPAKA',CURRENT_TIMESTAMP,NULL,1),
+ (102,'HETANSH','JANAPRIYA WEST CITY',CURRENT_TIMESTAMP,NULL,1);
+
+create table VSCOMDB.VSCOM_SC.scd_type_1
+(id number,
+name varchar(250),
+ADDRESS varchar(500),
+CRETED_DATE TIMESTAMP,
+MODIFIED_DATE TIMESTAMP,
+BATCH_ID NUMBER)
+;
+
+C:\Users\balav\dbt\dbt_project>dbt run --target qa --models scd_types.scd_type_1*   
+INSERT INTO SRC_scd_type_1
+VALUES(100,'BALA VENKATESH','MIYAPUR',CURRENT_TIMESTAMP,NULL,2);
+
+C:\Users\balav\dbt\dbt_project>dbt run --target qa --models scd_types.scd_type_1*   
+
+
+---SCD TYPE 2 IMPLEMENTATION
+
+create or replace table SRC_scd_type_2
+(id number,
+name varchar(250),
+ADDRESS varchar(500),
+CRETED_DATE TIMESTAMP,
+MODIFIED_DATE TIMESTAMP,
+ACTIVE_FLAG CHAR,
+BATCH_ID NUMBER)
+;
+
+INSERT INTO SRC_scd_type_2
+VALUES(100,'BALA VENKATESH','GEDDADA',CURRENT_TIMESTAMP,NULL,'Y',1),
+ (101,'SRI LALITHA','TATIPAKA',CURRENT_TIMESTAMP,NULL,'Y',1),
+ (102,'HETANSH','JANAPRIYA WEST CITY',CURRENT_TIMESTAMP,NULL,'Y',1);
+
+
+dbt run --target qa --models scd_types.scd_type_2*
+
+INSERT INTO SRC_scd_type_2
+VALUES(100,'BALA VENKATESH','HMT-COLONY,MIYAUR,HYDERABAD, PIN:500049','2025-03-08 00:30:19.521',CURRENT_TIMESTAMP,'Y',2);
+
+INSERT INTO SRC_scd_type_2
+VALUES(103,'AADHRA','VVPALEM',CURRENT_TIMESTAMP,NULL,'Y',2);
+
+dbt run --target qa --models scd_types.scd_type_2*
+
+INSERT INTO SRC_scd_type_2
+VALUES(104,'AADHRA','VVPALEM',CURRENT_TIMESTAMP,NULL,'Y',3);
+
+dbt run --target qa --models scd_types.scd_type_2*
+
+
+INSERT INTO SRC_scd_type_2
+VALUES(104,'AADHRA','HMT-COLONY,MIYAUR,HYDERABAD, PIN:500049','2025-03-10 07:22:11.223',CURRENT_TIMESTAMP,'Y',4);
+
+
+dbt run --target qa --models scd_types.scd_type_2*
