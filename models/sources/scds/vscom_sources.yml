@@ -1,0 +1,34 @@
+version: 2
+sources:
+  - name: REFERENCE_SRC
+    database: |
+      {%- if target.name in ("prod", "preprod") -%} VSCOM_PROD_RELATIONAL_DB
+      {%- else -%} VSCOMDB
+      {%- endif -%}
+    schema: VSOM_REFERENCE
+    tables:
+      - name: TBL_VSCOM_REF
+      
+  - name: VSCOM_LAKE_SRC
+    database: |
+      {%- if target.name in ("prod", "preprod") -%} VSCOM_PROD_RELATIONAL_DB
+      {%- else -%} VSCOM_LAKE
+      {%- endif -%}
+    schema: VSCOM_LAKE_SRC
+    tables:
+      - name: SRC_SCD_TYPE_2
+      - name: SRC_SCD_TYPE_1
+      - name: SRC_SCD_TYPE_4
+
+  - name: VSCOM_DB_SRC
+    database: |
+      {%- if target.name in ("prod", "preprod") -%} VSCOM_PROD_RELATIONAL_DB
+      {%- else -%} VSCOM_DB
+      {%- endif -%}
+    schema: VSCOM_SC
+    tables:
+      - name: SCD_TYPE_2
+      - name: SCD_TYPE_1
+      - name: SCD_TYPE_4
+      - name: SCD_TYPE_4_MAIN_RECORDS
+      - name: SCD_TYPE_4_HISTORY

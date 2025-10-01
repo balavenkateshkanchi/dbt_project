@@ -1,5 +1,7 @@
+-- C:\Users\balav\dbt\dbt_project\dbt_venv\Scripts\Activate
+
 -- SCD Type 1 IMPLEMENTATION
-create table TASTY_BYTES_SAMPLE_DATA.RAW_POS.SRC_scd_type_1
+create table VSCOM_LAKE.VSCOM_LAKE_SRC.SRC_SCD_TYPE_1
 (id number,
 name varchar(250),
 ADDRESS varchar(500),
@@ -8,27 +10,34 @@ MODIFIED_DATE TIMESTAMP,
 BATCH_ID NUMBER)
 ;
 
-INSERT INTO SRC_scd_type_1
+INSERT INTO VSCOM_LAKE.VSCOM_LAKE_SRC.SRC_scd_type_1
 VALUES(100,'BALA VENKATESH','GODDANA',CURRENT_TIMESTAMP,NULL,1),
  (101,'SRI LALITHA','TATISAKA',CURRENT_TIMESTAMP,NULL,1),
  (102,'HETANSH','JANAPRIYA CITY',CURRENT_TIMESTAMP,NULL,1);
 
-create table VSCOMDB.VSCOM_SC.scd_type_1
+create or replace table VSCOM_DB.VSCOM_SC.scd_type_1
 (id number,
 name varchar(250),
 ADDRESS varchar(500),
 CRETED_DATE TIMESTAMP,
 MODIFIED_DATE TIMESTAMP,
-BATCH_ID NUMBER)
+BATCH_ID NUMBER,
+ALL_HASH_KEY varchar(250),
+BUSINESS_KEY varchar(250),
+FULL_HASH_KEY varchar(250),
+LOAD_DATE TIMESTAMP
+
+)
 ;
 
-C:\Users\balav\dbt\dbt_project>dbt run --target qa --models scd_types.scd_type_1*   
+
+C:\Users\balav\dbt\dbt_project>dbt run --target dev --models scd_types.scd_type_1*   
 INSERT INTO SRC_scd_type_1
 VALUES(100,'BALA VENKATESH','MIYAPUR',CURRENT_TIMESTAMP,NULL,2);
 
-C:\Users\balav\dbt\dbt_project>dbt run --target qa --models scd_types.scd_type_1*   
+C:\Users\balav\dbt\dbt_project>dbt run --target dev --models scd_types.scd_type_1*   
 
-
+ 
 ---SCD TYPE 2 IMPLEMENTATION
 
 create or replace table SRC_scd_type_2
@@ -41,13 +50,29 @@ ACTIVE_FLAG CHAR,
 BATCH_ID NUMBER)
 ;
 
+create or replace table VSCOM_DB.vscom_sc.scd_type_2
+(id number,
+name varchar(250),
+ADDRESS varchar(500),
+CRETED_DATE TIMESTAMP,
+MODIFIED_DATE TIMESTAMP,
+ACTIVE_FLAG CHAR,
+BATCH_ID NUMBER,
+ALL_HASH_KEY varchar,
+BUSINESS_KEY varchar(250),
+FULL_HASH_KEY varchar(250),
+LOAD_DATE   TIMESTAMP
+)
+;
+
+
 INSERT INTO SRC_scd_type_2
 VALUES(100,'BALA VENKATESH','GODDANA',CURRENT_TIMESTAMP,NULL,'Y',1),
  (101,'SRI LALITHA','TATISAKA',CURRENT_TIMESTAMP,NULL,'Y',1),
  (102,'HETANSH','JANAPRIYA CITY',CURRENT_TIMESTAMP,NULL,'Y',1);
 
 
-dbt run --target qa --models scd_types.scd_type_2*
+dbt run --target dev --models scd_types.scd_type_2*
 
 INSERT INTO SRC_scd_type_2
 VALUES(100,'BALA VENKATESH','KMT-COLONY,MIRJAPUR,HYDERABAD, PIN:500049','2025-03-08 00:30:19.521',CURRENT_TIMESTAMP,'Y',2);
@@ -55,19 +80,19 @@ VALUES(100,'BALA VENKATESH','KMT-COLONY,MIRJAPUR,HYDERABAD, PIN:500049','2025-03
 INSERT INTO SRC_scd_type_2
 VALUES(103,'AADHRA','VVPALEM',CURRENT_TIMESTAMP,NULL,'Y',2);
 
-dbt run --target qa --models scd_types.scd_type_2*
+dbt run --target dev --models scd_types.scd_type_2*
 
 INSERT INTO SRC_scd_type_2
 VALUES(104,'AADHRA','VVPALEM',CURRENT_TIMESTAMP,NULL,'Y',3);
 
-dbt run --target qa --models scd_types.scd_type_2*
+dbt run --target dev --models scd_types.scd_type_2*
 
 
 INSERT INTO SRC_scd_type_2
 VALUES(104,'AADHRA','KMT-COLONY,MIRJAPUR,HYDERABAD, PIN:500049','2025-03-10 07:22:11.223',CURRENT_TIMESTAMP,'Y',4);
 
 
-dbt run --target qa --models scd_types.scd_type_2*
+dbt run --target dev --models scd_types.scd_type_2*
 
 ---SCD TYPE 4 IMPLEMENTATION
 
@@ -86,6 +111,7 @@ VALUES(100,'BALA VENKATESH','GODDANA',CURRENT_TIMESTAMP,NULL,'Y',1),
  (101,'SRI LANKA','TATISAKA',CURRENT_TIMESTAMP,NULL,'Y',1),
  (102,'HASALANKA','JANAPRIYA CITY',CURRENT_TIMESTAMP,NULL,'Y',1);
 
+
 create or replace table scd_type_4_main_records
 (id number,
 name varchar(250),
@@ -94,7 +120,12 @@ CRETED_DATE TIMESTAMP,
 MODIFIED_DATE TIMESTAMP,
 ACTIVE_FLAG CHAR,
 BATCH_ID NUMBER,
-ALL_HASH_KEY VARCHAR)
+ALL_HASH_KEY varchar,
+BUSINESS_KEY varchar(250),
+FULL_HASH_KEY varchar(250),
+LOAD_DATE   TIMESTAMP
+)
+
 ;
 
 
@@ -107,21 +138,25 @@ CRETED_DATE TIMESTAMP,
 MODIFIED_DATE TIMESTAMP,
 ACTIVE_FLAG CHAR,
 BATCH_ID NUMBER,
-ALL_HASH_KEY VARCHAR)
+ALL_HASH_KEY varchar,
+BUSINESS_KEY varchar(250),
+FULL_HASH_KEY varchar(250),
+LOAD_DATE   TIMESTAMP
+)
 ;
 
- dbt run --target qa --models scd_types.scd_type_4*
+ dbt run --target dev --models scd_types.scd_type_4*
 
  INSERT INTO SRC_scd_type_4
 VALUES(100,'BALA VENKATESH','KMT-COLONY,MIRJAPUR,HYDERABAD, PIN:500049','2025-03-08 00:30:19.521',CURRENT_TIMESTAMP,'Y',2);
 
- dbt run --target qa --models scd_types.scd_type_4*
+ dbt run --target dev --models scd_types.scd_type_4*
 
 
 INSERT INTO SRC_scd_type_4
 VALUES(100,'BALA VENKATESH','RNO 9,KMT-COLONY,MIRJAPUR,HYDERABAD, PIN:500049','2025-03-08 00:30:19.521',CURRENT_TIMESTAMP,'Y',3);
 
-dbt run --target qa --models scd_types.scd_type_4*
+dbt run --target dev --models scd_types.scd_type_4*
 
 INSERT INTO SRC_scd_type_4
 VALUES(103,'AADHRA','KMT-COLONY,MIRJAPUR,HYDERABAD, PIN:500049','2025-03-10 07:22:11.223',CURRENT_TIMESTAMP,'Y',4);
@@ -129,4 +164,7 @@ VALUES(103,'AADHRA','KMT-COLONY,MIRJAPUR,HYDERABAD, PIN:500049','2025-03-10 07:2
 INSERT INTO SRC_scd_type_4
 VALUES(100,'BALA VENKATESH','KOTI,RNO 9,KMT-COLONY,MIRJAPUR,HYDERABAD, PIN:500049','2025-03-08 00:30:19.521',CURRENT_TIMESTAMP,'Y',4);
 
-dbt run --target qa --models scd_types.scd_type_4*
+dbt run --target dev --models scd_types.scd_type_4*
+
+
+dbt run --target dev --models example.data_load

@@ -1,3 +1,10 @@
+{%- set business_key = md5_generation(['ID']) %}
+{%- set data_model_columns = fromjson(var('entity_columns')).DATA.SCD_TYPE_4_HISTORY-%}
+{%- set all_hash_key = md5_generation(data_model_columns, exclude=['ID']) -%}
+{%- set full_hash_key = md5_generation(['BUSINESS_KEY','ALL_HASH_KEY'] ) -%}
+{%- set src_data_model_columns_mapping = ["'Y' AS ACTIVE_FLAG", 'ID', 'NAME', 'ADDRESS', 'CRETED_DATE', 'NULL AS MODIFIED_DATE', 'BATCH_ID','ALL_HASH_KEY', 'BUSINESS_KEY','FULL_HASH_KEY','LOAD_DATE'] -%}
+{%- set current_batch_id = var('batch_id') -%}
+
 {{ config(
     materialized='incremental',
     unique_key='id',
@@ -7,31 +14,9 @@
 ) }}
 
 WITH source_data AS (
-    SELECT * FROM {{ ref('scd_type_4_src_qry') }}
-        QUALIFY ROW_NUMBER() OVER (PARTITION BY ID ORDER BY COALESCE(MODIFIED_DATE, CRETED_DATE) DESC) = 1
-),
-
-existing_data AS (
-    SELECT * FROM vscomdb.vscom_sc.scd_type_4_main_records
-    WHERE ACTIVE_FLAG = 'Y'
-),
-
-historical_changes AS (
-    SELECT hist.*
-    FROM existing_data hist
-    JOIN source_data src
-    ON src.ID = hist.ID
-    WHERE src.ALL_HASH_KEY != COALESCE(hist.ALL_HASH_KEY, 'A')
+    SELECT * FROM {{ ref('scd_type_4_main_records') }}
 )
-
 -- Append old records to the history table
 SELECT 
-    ID, 
-    NAME, 
-    ADDRESS, 
-    CRETED_DATE, 
-    CURRENT_TIMESTAMP()::timestamp AS MODIFIED_DATE, 
-    'N' AS ACTIVE_FLAG, 
-    BATCH_ID, 
-    ALL_HASH_KEY
-FROM historical_changes
+        *
+FROM source_data

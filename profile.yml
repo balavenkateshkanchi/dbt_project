@@ -1,17 +1,20 @@
 dbt_project:
   target: dev
-  outputs:
-    qa:
-      account: WCZMVOP-OV26835
-      database: VSCOMDB
-      password: XSriSnow!19X
-      role: ACCOUNTADMIN
-      schema: VSCOM_SC
+  outputs:  
+    dev:
+      account: WULNLOJ-RX68415
+      user: balash
+      password: HetanshSri!1912
+      role: DEV_ROLE
+      warehouse: COMPUTE_WH
+      database: VSCOM_DB
+      schema: VSCOM_SC  
       threads: 1
       type: snowflake
-      user: xx.x.xxxxxxx22@gmail.com
-      warehouse: COMPUTE_WH
-      authenticator: externalbrowser
+
+      # balavenkateshkanchi12@gmail.com
+
+      authenticator: snowflake
       client_session_keep_alive: False
       query_tag: dbt_data_analytics
       # optional
@@ -20,3 +23,4 @@ dbt_project:
       retry_on_database_errors: False # default: false
       retry_all: False  # default: false
       reuse_connections: True # default: True if client_session_keep_alive is False, otherwise None
+      

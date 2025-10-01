@@ -3,6 +3,7 @@
 # name or the intended use of these models
 name: 'dbt_project'
 version: '1.0.0'
+config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'dbt_project'
@@ -21,16 +22,31 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
+vars:
+  entity_columns: "{{ get_cols_from_table() }}"  # Ensure the macro `get_cols_from_table` is defined and returns the correct structure.
+  md5_exclude_list: ['BUSINESS_HKEY', 'ALL_HASH_KEY', 'FULL_HASH_KEY', 'BATCH_ID', 'LOAD_DATE','MODIFIED_DATE','BATCH_ID']
+  batch_id: "{{ run_started_at.strftime('%Y%m%d%H%M%S') }}"  # This variable captures the timestamp when the dbt run started, formatted as YYYYMMDDHHMMSS.
 
+on-run-start:
+  - "{{ log_batch_master(var('batch_id')) }}"
+  
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
-
-# In this example config, we tell dbt to build all models in the example/
-# directory as views. These settings can be overridden in the individual model
-# files using the `{{ config(...) }}` macro.
 models:
   dbt_project:
-    # Config indicated by + and applies to all files under models/example/
-    example:
-      +materialized: view
-      my_first_dbt_model:
+    scd_types:
+      scd_type_1:
+        +pre-hook: "{{ log_batch_details_start(var('batch_id')) }}"
+        +post-hook: "{{ log_batch_details_end(var('batch_id'),'SUCCESS') }}"
+      scd_type_2:
+        +pre-hook: "{{ log_batch_details_start(var('batch_id')) }}"
+        +post-hook: "{{ log_batch_details_end(var('batch_id'),'SUCCESS') }}"
+      scd_type_4:
+        scd_type_4_main_records:
+          +pre-hook: 
+            - "{{ log_batch_details_start(var('batch_id')) }}"
+          +post-hook: "{{ log_batch_details_end(var('batch_id'),'SUCCESS') }}"
+        scd_type_4_history:
+          +pre-hook: 
+            - "{{ log_batch_details_start(var('batch_id')) }}"
+          +post-hook: "{{ log_batch_details_end(var('batch_id'),'SUCCESS') }}"

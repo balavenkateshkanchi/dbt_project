@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: CONTROL_SRC
+    database: "{{ target.database }}"
+    schema: VSOM_CONTROL
+    tables:
+      - name: BATCH_MASTER
+      - name: BATCH_DETAIL
+
+  - name: INFORMATION_SRCS
+    database: "{{ target.database }}"
+    schema: INFORMATION_SCHEMA
+    tables:
+      - name: TABLES
+      - name: COLUMNS

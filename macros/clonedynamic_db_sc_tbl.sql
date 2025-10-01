@@ -21,4 +21,4 @@
 	{% endfor %}	
 {% endmacro %}
 
--- dbt run-operation clonedynamic_db_sc_tbl --args "{'src_db':'TASTY_BYTES_SAMPLE_DATA', 'src_sc':'RAW_POS', 'tgt_db':'TATGET_DB', 'tgt_sc':'TATGET_SCHEMA', 'tbl_list':['T1','T2','T3']}" 
+-- dbt run-operation clonedynamic_db_sc_tbl --args "{'src_db':'VSCOM_LAKE', 'src_sc':'VSCOM_LAKE_SRC', 'tgt_db':'TATGET_DB', 'tgt_sc':'TATGET_SCHEMA', 'tbl_list':['T1','T2','T3']}" 
