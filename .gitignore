@@ -1,4 +1,8 @@
 
 target/
 dbt_packages/
+dbt_modules/
 logs/
+.venv/
+dbt_venv/
+

@@ -28,6 +28,7 @@ vars:
   batch_id: "{{ run_started_at.strftime('%Y%m%d%H%M%S') }}"  # This variable captures the timestamp when the dbt run started, formatted as YYYYMMDDHHMMSS.
 
 on-run-start:
+  - ALTER SESSION SET USE_CACHED_RESULT = FALSE
   - "{{ log_batch_master(var('batch_id')) }}"
   
 # Configuring models
