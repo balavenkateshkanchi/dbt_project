@@ -4,7 +4,7 @@ dbt_project:
     dev:
       account: WULNLOJ-RX68415
       user: balash
-      password: HetanshSri!1912
+      password: *********
       role: DEV_ROLE
       warehouse: COMPUTE_WH
       database: VSCOM_DB
